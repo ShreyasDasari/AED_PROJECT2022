@@ -26,7 +26,7 @@ public class HomePage extends javax.swing.JFrame {
         if(!email.equals("admin@gmail.com")){
             btnFlight.setVisible(false);
             btnFlightDetails.setVisible(false);
-//            btnViewFlight.setVisible(false);
+            btnEditFlight.setVisible(false);
             btnVerify.setVisible(false);
         }
         
@@ -51,7 +51,10 @@ public class HomePage extends javax.swing.JFrame {
         btnFlightDetails = new javax.swing.JButton();
         btnEditFlight = new javax.swing.JButton();
         btnVerify = new javax.swing.JButton();
-        lblBackground = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -63,23 +66,43 @@ public class HomePage extends javax.swing.JFrame {
                 btnLogoutActionPerformed(evt);
             }
         });
-        getContentPane().add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(91, 38, -1, -1));
+        getContentPane().add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 330, -1, -1));
 
         btnBookTicket.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         btnBookTicket.setText("Book Ticket");
-        getContentPane().add(btnBookTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(222, 38, -1, -1));
+        btnBookTicket.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBookTicketActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnBookTicket, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 330, -1, -1));
 
         btnBill.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         btnBill.setText("View Bill & Booked Ticket Details");
-        getContentPane().add(btnBill, new org.netbeans.lib.awtextra.AbsoluteConstraints(397, 38, -1, -1));
+        btnBill.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBillActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnBill, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 330, -1, -1));
 
         btnChangePassword.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         btnChangePassword.setText("Change Password");
-        getContentPane().add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(715, 38, -1, -1));
+        btnChangePassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChangePasswordActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnChangePassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 330, -1, -1));
 
         btnChangeSecQ.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         btnChangeSecQ.setText("Change Security Question");
-        getContentPane().add(btnChangeSecQ, new org.netbeans.lib.awtextra.AbsoluteConstraints(926, 38, -1, -1));
+        btnChangeSecQ.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChangeSecQActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnChangeSecQ, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 330, -1, -1));
 
         btnExit.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         btnExit.setText("Exit");
@@ -88,7 +111,7 @@ public class HomePage extends javax.swing.JFrame {
                 btnExitActionPerformed(evt);
             }
         });
-        getContentPane().add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1189, 38, -1, -1));
+        getContentPane().add(btnExit, new org.netbeans.lib.awtextra.AbsoluteConstraints(1220, 330, -1, -1));
 
         btnFlight.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         btnFlight.setText("Manage Flights");
@@ -119,10 +142,30 @@ public class HomePage extends javax.swing.JFrame {
 
         btnVerify.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         btnVerify.setText("Verify Users");
+        btnVerify.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerifyActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnVerify, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 720, -1, -1));
 
-        lblBackground.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/home-background-image.png"))); // NOI18N
-        getContentPane().add(lblBackground, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1370, 770));
+        jLabel1.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("WELCOME TO ALPHA AIRLINES");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(414, 47, -1, -1));
+
+        jLabel2.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("PASSENGER FEATURES:");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 221, -1, -1));
+
+        jLabel3.setFont(new java.awt.Font("Helvetica Neue", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("ADMIN FEATURES:");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 511, -1, -1));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/BACKGR.jpeg"))); // NOI18N
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -40, 1450, 850));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -157,6 +200,33 @@ public class HomePage extends javax.swing.JFrame {
         // TODO add your handling code here:
         new EditFlight().setVisible(true);
     }//GEN-LAST:event_btnEditFlightActionPerformed
+
+    private void btnVerifyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerifyActionPerformed
+        // TODO add your handling code here:
+        new VerifyUser().setVisible(true);
+    }//GEN-LAST:event_btnVerifyActionPerformed
+
+    private void btnBookTicketActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBookTicketActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+        new BookTicket(email).setVisible(true);
+    }//GEN-LAST:event_btnBookTicketActionPerformed
+
+    private void btnBillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBillActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+        new ViewTicket().setVisible(true);
+    }//GEN-LAST:event_btnBillActionPerformed
+
+    private void btnChangePasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangePasswordActionPerformed
+        // TODO add your handling code here:
+        new ChangePassword(email).setVisible(true);
+    }//GEN-LAST:event_btnChangePasswordActionPerformed
+
+    private void btnChangeSecQActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChangeSecQActionPerformed
+        // TODO add your handling code here:
+        new ChangeSecurityQuestion(email).setVisible(true);
+    }//GEN-LAST:event_btnChangeSecQActionPerformed
 
     /**
      * @param args the command line arguments
@@ -204,6 +274,9 @@ public class HomePage extends javax.swing.JFrame {
     private javax.swing.JButton btnFlightDetails;
     private javax.swing.JButton btnLogout;
     private javax.swing.JButton btnVerify;
-    private javax.swing.JLabel lblBackground;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,14 +7,25 @@ package airline_management;
 import javax.swing.JOptionPane;
 import model.User;
 import db.UserDb;
+import common.MailSmtps;
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 /**
  *
  * @author shreyasdasariicloud.com
  */
 public class SignupJFrame extends javax.swing.JFrame {
+
     public String emailPattern = "^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+[.]+[a-zA-Z0-9]+$";
     public String mobileNumber = "^[0-9]*$";
+
     /**
      * Creates new form SignupJFrame
      */
@@ -22,8 +33,8 @@ public class SignupJFrame extends javax.swing.JFrame {
         initComponents();
         btnSave.setEnabled(false);
     }
-    
-    public void clear(){
+
+    public void clear() {
         txtName.setText("");
         txtEmailID.setText("");
         txtMobileNo.setText("");
@@ -33,8 +44,8 @@ public class SignupJFrame extends javax.swing.JFrame {
         txtAnswer.setText("");
         btnSave.setEnabled(false);
     }
-    
-    public void validateFields(){
+
+    public void validateFields() {
         String name = txtName.getText();
         String email = txtEmailID.getText();
         String mobileno = txtMobileNo.getText();
@@ -42,10 +53,11 @@ public class SignupJFrame extends javax.swing.JFrame {
         String password = txtPassword.getText();
         String securityQuestion = txtSecQ.getText();
         String answer = txtAnswer.getText();
-        if(!name.equals("") && email.matches(emailPattern) && mobileno.matches(mobileNumber) && mobileno.length() == 10 && !address.equals("") && !password.equals("") && !securityQuestion.equals("") && !answer.equals(""))
+        if (!name.equals("") && email.matches(emailPattern) && mobileno.matches(mobileNumber) && mobileno.length() == 10 && !address.equals("") && !password.equals("") && !securityQuestion.equals("") && !answer.equals("")) {
             btnSave.setEnabled(true);
-        else
+        } else {
             btnSave.setEnabled(false);
+        }
     }
 
     /**
@@ -85,8 +97,8 @@ public class SignupJFrame extends javax.swing.JFrame {
 
         lblSignup.setFont(new java.awt.Font("Helvetica Neue", 1, 36)); // NOI18N
         lblSignup.setForeground(new java.awt.Color(0, 0, 255));
-        lblSignup.setText("SignUp");
-        getContentPane().add(lblSignup, new org.netbeans.lib.awtextra.AbsoluteConstraints(603, 146, -1, -1));
+        lblSignup.setText("Passenger SignUp");
+        getContentPane().add(lblSignup, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 150, -1, -1));
 
         lblName.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         lblName.setText("Name");
@@ -259,9 +271,10 @@ public class SignupJFrame extends javax.swing.JFrame {
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         // TODO add your handling code here:
-        int a = JOptionPane.showConfirmDialog(null, "Do you really want to Exit?","Select",JOptionPane.YES_NO_OPTION);
-        if(a==0)
-            System.exit(0);
+        int a = JOptionPane.showConfirmDialog(null, "Do you really want to Exit?", "Select", JOptionPane.YES_NO_OPTION);
+        if (a == 0)
+            setVisible(false);
+            new Enterprise().setVisible(true);
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
@@ -275,9 +288,61 @@ public class SignupJFrame extends javax.swing.JFrame {
         user.setSecurityQuestion(txtSecQ.getText());
         user.setAnswer(txtAnswer.getText());
         UserDb.save(user);
+
+        String to = user.getEmail();//change accordingly
+
+        // Sender's email ID needs to be mentioned
+        String from = "alphaairlines07";//change accordingly
+        final String username = "alphaairlines07";//change accordingly
+        final String password = "hijkfeyqfgsspvac";//change accordingly
+
+        // Assuming you are sending email through relay.jangosmtp.net
+        String host = "smtp.gmail.com";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", "587");
+
+        // Get the Session object.
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+            // Create a default MimeMessage object.
+            Message message = new MimeMessage(session);
+
+            // Set From: header field of the header.
+            message.setFrom(new InternetAddress(from));
+
+            // Set To: header field of the header.
+            message.setRecipients(Message.RecipientType.TO,
+                    InternetAddress.parse(to));
+
+            // Set Subject: header field
+            message.setSubject("Welcome To Alpha Airlines");
+
+            // Now set the actual message
+            message.setText("Thankyou for registering with our airlines. "
+                    + "We look forward to serve you at our best :) ");
+
+            // Send message
+            Transport.send(message);
+
+            System.out.println("Sent message successfully....");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
+        JOptionPane.showMessageDialog(null, "Welcome email has been sent!");
         clear();
-        
-        
+
+
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed

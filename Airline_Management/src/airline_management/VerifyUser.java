@@ -4,6 +4,14 @@
  */
 package airline_management;
 
+import db.FlightDetailsDb;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
+import db.UserDb;
+import java.util.Iterator;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableModel;
+import model.User;
 /**
  *
  * @author shreyasdasariicloud.com
@@ -15,6 +23,21 @@ public class VerifyUser extends javax.swing.JFrame {
      */
     public VerifyUser() {
         initComponents();
+    }
+    
+    public void getAllRecords(String email){
+        DefaultTableModel dtm = (DefaultTableModel) tblStatus.getModel();
+        dtm.setRowCount(0);
+        ArrayList<User> list = UserDb.getAllRecords(email);
+        Iterator<User> itr = list.iterator();
+        while(itr.hasNext()){
+            User userObj = itr.next();
+            if(!userObj.getEmail().equals("admin@gmail.com")){
+                dtm.addRow(new Object[]{userObj.getId(),userObj.getName(),userObj.getEmail(),userObj.getMobileno(),userObj.getAddress(),userObj.getSecurityQuestion(),userObj.getStatus()});
+            }
+        }
+                
+                
     }
 
     /**
@@ -32,16 +55,39 @@ public class VerifyUser extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblStatus = new javax.swing.JTable();
         lblStatus = new javax.swing.JLabel();
+        btnBack = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         lblTitle.setFont(new java.awt.Font("Helvetica Neue", 1, 18)); // NOI18N
         lblTitle.setText("Verify User");
         getContentPane().add(lblTitle, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 6, -1, -1));
 
+        lblSearch.setFont(new java.awt.Font("Helvetica Neue", 1, 14)); // NOI18N
         lblSearch.setText("Search");
+        lblSearch.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                lblSearchComponentShown(evt);
+            }
+        });
         getContentPane().add(lblSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(444, 174, -1, -1));
+
+        txtSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSearchActionPerformed(evt);
+            }
+        });
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtSearchKeyReleased(evt);
+            }
+        });
         getContentPane().add(txtSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(548, 171, 350, -1));
 
         tblStatus.setModel(new javax.swing.table.DefaultTableModel(
@@ -52,6 +98,11 @@ public class VerifyUser extends javax.swing.JFrame {
                 "ID", "Name", "Email ID", "MobileNo", "Address", "SecurityQuestion", "Status"
             }
         ));
+        tblStatus.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblStatusMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblStatus);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 237, 1360, -1));
@@ -60,8 +111,61 @@ public class VerifyUser extends javax.swing.JFrame {
         lblStatus.setText("*Click on row to change the status");
         getContentPane().add(lblStatus, new org.netbeans.lib.awtextra.AbsoluteConstraints(581, 682, -1, -1));
 
+        btnBack.setText("Back");
+        btnBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBackActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnBack, new org.netbeans.lib.awtextra.AbsoluteConstraints(1210, 170, -1, -1));
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void lblSearchComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_lblSearchComponentShown
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lblSearchComponentShown
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        // TODO add your handling code here:
+        getAllRecords("");
+    }//GEN-LAST:event_formComponentShown
+
+    private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSearchActionPerformed
+
+    private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
+        // TODO add your handling code here:
+        String email = txtSearch.getText();
+        getAllRecords(email);
+    }//GEN-LAST:event_txtSearchKeyReleased
+
+    private void tblStatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblStatusMouseClicked
+        // TODO add your handling code here:
+        int index = tblStatus.getSelectedRow();
+        TableModel model = tblStatus.getModel();
+        String email = model.getValueAt(index, 2).toString();
+        String status = model.getValueAt(index,6).toString();
+        if(status.equals("true"))
+            status = "false";
+        else
+            status = "true";
+        int a = JOptionPane.showConfirmDialog(null, "Do you want to change the status of '"+email+"'","Select",JOptionPane.YES_NO_OPTION);
+        if (a == 0){
+            UserDb.changeStatus(email, status);
+            setVisible(false);
+            new VerifyUser().setVisible(true);
+        }
+        
+        
+    }//GEN-LAST:event_tblStatusMouseClicked
+
+    private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
+        // TODO add your handling code here:
+        setVisible(false);
+        new HomePage().setVisible(true);
+    }//GEN-LAST:event_btnBackActionPerformed
 
     /**
      * @param args the command line arguments
@@ -99,6 +203,7 @@ public class VerifyUser extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBack;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblSearch;
     private javax.swing.JLabel lblStatus;

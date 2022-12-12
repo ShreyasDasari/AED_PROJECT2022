@@ -151,7 +151,8 @@ public class LoginJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         int a = JOptionPane.showConfirmDialog(null, "Do you really want to Exit?","Select",JOptionPane.YES_NO_OPTION);
         if(a==0)
-            System.exit(0);
+            setVisible(false);
+            new Enterprise().setVisible(true);
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
